@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu - Chef Lane</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.menu-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff8f0;
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.card h3 {
+    margin: 10px 0 5px;
+}
+
+.card p {
+    margin: 5px 0;
+}
+
+.card button {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card button:hover {
+    background-color: #ff4c3b;
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <h1>Chef Lane</h1>
+    <div>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="order.html">Order</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h2 id="chef-title">Menu</h2> <!-- No chef name -->
+    <div id="menu-container" class="menu-container"></div>
+</div>
+
+<script>
+// Menu items with images
+const chefMenus = {
+    ria: [
+        { name: "Bhelpuri", price: 250, image: "images/bhelpuri.jpeg" },
+        { name: "Mushroom(per 100g)", price: 300, image: "images/mushroom.jpeg" },
+        { name: "Chicken Mushroom Pizza", price: 300, image: "images/chickenmushroompizza.jpeg" },
+        { name: "Chicken Jhal Polao", price: 180, image: "images/chickenjhalpolao.jpeg" }
+    ],
+    tanvir: [
+        { name: "Pasta Alfredo", price: 200, image: "images/pasta_alfredo.jpg" },
+        { name: "Margherita Pizza", price: 220, image: "images/margherita_pizza.jpg" }
+    ],
+    sadia: [
+        { name: "Vegetable Stir Fry", price: 180, image: "images/vegetable_stir_fry.jpg" },
+        { name: "Quinoa Salad", price: 200, image: "images/quinoa_salad.jpg" }
+    ]
+};
+
+// Get previously selected dishes from URL
+const urlParams = new URLSearchParams(window.location.search);
+let prevDishes = urlParams.get('dishes') ? urlParams.get('dishes').split(',') : [];
+
+const menuContainer = document.getElementById('menu-container');
+
+// Loop through all chefs and display all dishes
+for (const chef in chefMenus) {
+    chefMenus[chef].forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <h3>${item.name}</h3>
+            <p>Price: ${item.price} TK</p>
+            <button onclick="addToOrder('${item.name}')">Order</button>
+        `;
+        menuContainer.appendChild(card);
+    });
+}
+
+// Add dish to order.html while preserving previous selections
+function addToOrder(itemName) {
+    const dishes = prevDishes.slice(); // copy previous dishes
+    dishes.push(itemName);             // add new selection
+    window.location.href = `order.html?dishes=${encodeURIComponent(dishes.join(','))}`;
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
